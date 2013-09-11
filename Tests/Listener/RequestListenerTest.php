@@ -51,4 +51,37 @@ class RequestListenerTest extends \PHPUnit_Framework_TestCase
         $listener = new RequestListener(new NewRelic('App name', 'Token'), $interactor, array(), array(), $namingStrategy);
         $listener->onCoreRequest($event);
     }
+
+    public function testMasterRequestEnableCaptureParams()
+    {
+        $interactor = $this->getMock('Ekino\Bundle\NewRelicBundle\NewRelic\NewRelicInteractorInterface');
+        $interactor->expects($this->once())->method('enableCaptureParams');
+
+        $namingStrategy = $this->getMock('Ekino\Bundle\NewRelicBundle\TransactionNamingStrategy\TransactionNamingStrategyInterface');
+
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $request = new Request();
+
+        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+
+        $listener = new RequestListener(new NewRelic('App name', 'Token'), $interactor, array(), array(), $namingStrategy, true);
+        $listener->onCoreRequest($event);
+    }
+
+    public function testMasterRequestDisableCaptureParams()
+    {
+        $interactor = $this->getMock('Ekino\Bundle\NewRelicBundle\NewRelic\NewRelicInteractorInterface');
+        $interactor->expects($this->once())->method('disableCaptureParams');
+        $interactor->expects($this->never())->method('enableCaptureParams');
+
+        $namingStrategy = $this->getMock('Ekino\Bundle\NewRelicBundle\TransactionNamingStrategy\TransactionNamingStrategyInterface');
+
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\HttpKernelInterface');
+        $request = new Request();
+
+        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+
+        $listener = new RequestListener(new NewRelic('App name', 'Token'), $interactor, array(), array(), $namingStrategy, false);
+        $listener->onCoreRequest($event);
+    }
 }

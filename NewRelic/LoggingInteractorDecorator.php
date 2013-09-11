@@ -153,4 +153,22 @@ class LoggingInteractorDecorator implements NewRelicInteractorInterface
         $this->log('Disabling New Relic background job');
         $this->interactor->enableBackgroundJob();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function enableCaptureParams()
+    {
+        $this->log('Enabling New Relic capturing default params');
+        $this->interactor->enableCaptureParams();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function disableCaptureParams()
+    {
+        $this->log('Disabling New Relic capturing default params');
+        $this->interactor->disableCaptureParams();
+    }
 }

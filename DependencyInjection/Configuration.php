@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('enabled')->defaultTrue()->end()
                 ->scalarNode('api_key')->defaultValue(false)->end()
+                ->booleanNode('capture_params')->defaultTrue()->end()
                 ->scalarNode('application_name')->defaultValue(null)->end()
                 ->scalarNode('logging')
                     ->defaultFalse()
