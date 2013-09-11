@@ -90,6 +90,7 @@ class EkinoNewRelicExtension extends Extension
 
         $container->getDefinition('ekino.new_relic.request_listener')
             ->replaceArgument(4, $transaction_naming_service)
+            ->replaceArgument(5, $config['capture_params'])
         ;
     }
 }

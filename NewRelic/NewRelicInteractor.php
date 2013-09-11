@@ -100,4 +100,28 @@ class NewRelicInteractor implements NewRelicInteractorInterface
     {
         newrelic_background_job(false);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function enableCaptureParams()
+    {
+        if ( function_exists('newrelic_capture_params') ) {
+            newrelic_capture_params(true);
+        } else if ( function_exists('newrelic_enable_params') ) {
+            newrelic_enable_params(true);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function disableCaptureParams()
+    {
+        if ( function_exists('newrelic_capture_params') ) {
+            newrelic_capture_params(false);
+        } else if ( function_exists('newrelic_enable_params') ) {
+            newrelic_enable_params(false);
+        }
+    }
 }

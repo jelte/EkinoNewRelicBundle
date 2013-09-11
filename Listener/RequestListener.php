@@ -29,19 +29,22 @@ class RequestListener
 
     protected $transactionNamingStrategy;
 
+    protected $enableParams;
+
     /**
      * @param NewRelic                    $newRelic
      * @param NewRelicInteractorInterface $interactor
      * @param array                       $ignoreRoutes
      * @param array                       $ignoreUrls
      */
-    public function __construct(NewRelic $newRelic, NewRelicInteractorInterface $interactor, array $ignoreRoutes, array $ignoreUrls, TransactionNamingStrategyInterface $transactionNamingStrategy)
+    public function __construct(NewRelic $newRelic, NewRelicInteractorInterface $interactor, array $ignoreRoutes, array $ignoreUrls, TransactionNamingStrategyInterface $transactionNamingStrategy, $enableParams = false)
     {
         $this->interactor   = $interactor;
         $this->newRelic     = $newRelic;
         $this->ignoreRoutes = $ignoreRoutes;
         $this->ignoreUrls   = $ignoreUrls;
         $this->transactionNamingStrategy = $transactionNamingStrategy;
+        $this->enableParams = $enableParams;
     }
 
     /**
@@ -51,6 +54,12 @@ class RequestListener
     {
         if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
             return;
+        }
+
+        if ( $this->enableParams ) {
+            $this->interactor->enableCaptureParams();
+        } else {
+            $this->interactor->disableCaptureParams();
         }
 
         $transactionName = $this->transactionNamingStrategy->getTransactionName($event->getRequest());

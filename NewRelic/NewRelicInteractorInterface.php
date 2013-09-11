@@ -81,4 +81,15 @@ interface NewRelicInteractorInterface
      * @return void
      */
     function disableBackgroundJob();
+
+
+    /**
+     * @return void
+     */
+    function enableCaptureParams();
+
+    /**
+     * @return void
+     */
+    function disableCaptureParams();
 }

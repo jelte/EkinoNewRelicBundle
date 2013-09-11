@@ -17,6 +17,7 @@
             <argument type="collection" />
             <argument type="collection" />
             <argument />
+            <argument />
         </service>
 
         <service id="ekino.new_relic.exception_listener" class="Ekino\Bundle\NewRelicBundle\Listener\ExceptionListener">
